@@ -1,14 +1,14 @@
 package room
 
 import (
+	"net/http"
+
 	"github.com/go-chi/chi/v5"
 )
 
-func RoomRoutes() {
-	r := chi.NewRouter()
+func RoomRoutes(w http.ResponseWriter, r *http.Request) {
+	routess := chi.NewRouter()
 
-	r.Get("/", GetAllRoomsController)
-	r.Post("/", CreateRoomController)
-	r.Patch("/", PatchRoomController)
-	r.Delete("/", DeleteRoomController)
+	routess.Get("/teste/", GetAllRoomsController)
+	routess.Post("/teste/", CreateRoomController)
 }

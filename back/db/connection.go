@@ -1,4 +1,4 @@
-package database
+package db
 
 import (
 	"database/sql"
@@ -21,5 +21,4 @@ func OpenConnection() (*sql.DB, error) {
 	err = conn.Ping()
 
 	return conn, err
-
 }
