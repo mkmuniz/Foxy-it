@@ -55,10 +55,10 @@ func Load() error {
 	return nil
 }
 
-func GetConfig(config string) interface{} {
-	if config == "api" {
-		return cfg.API.Port
-	}
-
+func GetDB() DBConfig {
 	return cfg.DB
+}
+
+func GetAPI() APIConfig {
+	return cfg.API
 }
