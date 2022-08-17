@@ -4,8 +4,7 @@ import (
 	"database/sql"
 	"fmt"
 	"log"
-
-	"github.com/worstp/back/configs"
+	"w2g-personal-project/configs"
 )
 
 func OpenConnection() (*sql.DB, error) {
