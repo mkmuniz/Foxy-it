@@ -1,4 +1,4 @@
-module github.com/worstp/w2g-personal-project/back
+module w2g-personal-project
 
 go 1.19
 
