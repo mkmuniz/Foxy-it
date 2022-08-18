@@ -3,6 +3,7 @@ package server
 import (
 	"log"
 	"net/http"
+	"w2g-personal-project/auth"
 	"w2g-personal-project/configs"
 	"w2g-personal-project/models/room"
 	"w2g-personal-project/models/user"
@@ -24,6 +25,7 @@ func Run() {
 	r.Get("/", http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Back is running"))
 	}))
+	r.Post("/login", auth.LoginController)
 	r.Group(room.Routes)
 	r.Group(user.Routes)
 
