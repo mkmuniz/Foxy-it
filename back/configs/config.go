@@ -28,7 +28,8 @@ func init() {
 }
 
 func Load() error {
-	viper.SetConfigType("env")
+	viper.SetConfigName("config")
+	viper.SetConfigType("toml")
 	viper.AddConfigPath(".")
 	err := viper.ReadInConfig()
 
@@ -48,7 +49,7 @@ func Load() error {
 		Host:     viper.GetString("db.host"),
 		Port:     viper.GetString("db.port"),
 		User:     viper.GetString("db.user"),
-		Password: viper.GetString("db.password"),
+		Password: viper.GetString("db.pass"),
 		Name:     viper.GetString("db.name"),
 	}
 
@@ -59,6 +60,6 @@ func GetDB() DBConfig {
 	return cfg.DB
 }
 
-func GetAPI() APIConfig {
-	return cfg.API
+func GetAPI() string {
+	return cfg.API.Port
 }

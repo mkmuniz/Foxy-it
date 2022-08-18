@@ -12,7 +12,7 @@ func GetUserService(id int64) (user User, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow("SELECT id, name, password FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.Password)
+	err = conn.QueryRow("SELECT id, name, email, password FROM users WHERE id = ?", id).Scan(&user.ID, &user.Name, &user.Email, &user.Password)
 
 	return
 }
@@ -24,7 +24,7 @@ func GetAllUsersService() (user User, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow("SELECT * FROM users").Scan(&user.ID, &user.Name, &user.Password)
+	err = conn.QueryRow("SELECT * FROM users").Scan(&user.ID, &user.Name, &user.Email, &user.Password)
 
 	return
 }
@@ -36,7 +36,7 @@ func CreateUserService(user User) (id int64, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow("INSERT INTO users (name, password) values($1 $2)").Scan(&user.ID, &user.Name, &user.Password)
+	err = conn.QueryRow("INSERT INTO users (name, password, email) values($1 $2 $3)").Scan(&user.ID, &user.Name, &user.Email, &user.Password)
 
 	return
 }
@@ -48,7 +48,7 @@ func PatchUserService(id int64, user User) (int64, error) {
 	}
 	defer conn.Close()
 
-	res, err := conn.Exec(`UPDATE users SET name=$2, capacity=$3, WHERE id=$1`, user.ID, user.Name, user.Password)
+	res, err := conn.Exec(`UPDATE users SET name=$2, password=$3, email=$4, WHERE id=$1`, user.ID, user.Name, user.Password, user.Email)
 	if err != nil {
 		return 0, err
 	}
