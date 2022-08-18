@@ -12,7 +12,7 @@ func GetRoomService(id int64) (room Room, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow("SELECT id, capacity, name FROM rooms WHERE id = ?", id).Scan(&room.ID, &room.Capacity, &room.Name)
+	err = conn.QueryRow(`SELECT id, capacity, name FROM rooms WHERE id = ?`, id).Scan(&room.ID, &room.Capacity, &room.Name)
 
 	return
 }
@@ -24,7 +24,7 @@ func GetAllRoomsService() (room Room, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow("SELECT * FROM rooms").Scan(&room.ID, &room.Capacity, &room.Name)
+	err = conn.QueryRow(`SELECT * FROM rooms`).Scan(&room.ID, &room.Capacity, &room.Name)
 
 	return
 }
@@ -36,7 +36,9 @@ func CreateRoomService(room Room) (id int64, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow("INSERT INTO rooms (name, capacity) values($1 $2)").Scan(&room.ID, &room.Capacity, &room.Name)
+	sql := `INSERT INTO rooms (id, name, capacity) VALUES ($1, $2, $3) RETURNING id`
+
+	err = conn.QueryRow(sql, room.ID, room.Name, room.Capacity).Scan(&room.ID)
 
 	return
 }

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"w2g-personal-project/configs"
+
+	_ "github.com/lib/pq"
 )
 
 func OpenConnection() (*sql.DB, error) {
