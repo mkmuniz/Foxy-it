@@ -21,6 +21,25 @@ func GetAllRoomsController(w http.ResponseWriter, r *http.Request) {
 
 }
 
+func GetRoomController(w http.ResponseWriter, r *http.Request) {
+	id, err := strconv.Atoi(chi.URLParam(r, "id"))
+	if err != nil {
+		log.Printf("Error converting ID: %v", err)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
+	}
+
+	room, err := GetRoomService(int64(id))
+
+	if err != nil {
+		log.Printf("Error on get all rooms: %v", err)
+	}
+
+	w.Header().Add("Content-Type", "application/json")
+	json.NewEncoder(w).Encode(room)
+
+}
+
 func CreateRoomController(w http.ResponseWriter, r *http.Request) {
 	var model Room
 
@@ -78,14 +97,14 @@ func PatchRoomController(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if rows > 1 {
-		log.Printf("Many users was update: %v", rows)
+		log.Printf("Many room was update: %v", rows)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
 	resp := map[string]any{
 		"Error":   200,
-		"Message": fmt.Sprintf("User updated successfully, ID: %v", id),
+		"Message": fmt.Sprintf("Room updated successfully, ID: %v", id),
 	}
 
 	w.Header().Add("Content-Type", "application/json")
@@ -100,31 +119,28 @@ func DeleteRoomController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	var model Room
-
-	err = json.NewDecoder(r.Body).Decode(&model)
 	if err != nil {
 		log.Printf("Error decoding JSON: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
-	rows, err := DeleteRoomService(int64(id), model)
+	rows, err := DeleteRoomService(int64(id))
 	if err != nil {
-		log.Printf("Error on delete user: %v", err)
+		log.Printf("Error on delete room: %v", err)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
 	if rows > 1 {
-		log.Printf("Many users was deleted: %v", rows)
+		log.Printf("Many rooms was deleted: %v", rows)
 		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
 		return
 	}
 
 	resp := map[string]any{
 		"Error":   200,
-		"Message": fmt.Sprintf("User deleted successfully, ID: %v", id),
+		"Message": fmt.Sprintf("Room deleted successfully, ID: %v", id),
 	}
 
 	w.Header().Add("Content-Type", "application/json")

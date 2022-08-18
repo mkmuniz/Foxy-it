@@ -1,6 +1,7 @@
 package room
 
 import (
+	"fmt"
 	"log"
 	"w2g-personal-project/db"
 )
@@ -12,19 +13,30 @@ func GetRoomService(id int64) (room Room, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow(`SELECT id, capacity, name FROM rooms WHERE id = ?`, id).Scan(&room.ID, &room.Capacity, &room.Name)
+	err = conn.QueryRow(`SELECT id, name, capacity FROM rooms WHERE id = $1`, id).Scan(&room.ID, &room.Name, &room.Capacity)
 
 	return
 }
 
-func GetAllRoomsService() (room Room, err error) {
+func GetAllRoomsService() (rooms []Room, err error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		log.Printf("Error on connect database: %s", err)
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow(`SELECT * FROM rooms`).Scan(&room.ID, &room.Capacity, &room.Name)
+	rows, err := conn.Query(`SELECT * FROM rooms`)
+
+	for rows.Next() {
+		var model Room
+		err = rows.Scan(&model.ID, &model.Name, &model.Capacity)
+
+		if err != nil {
+			fmt.Sprint(err)
+		}
+
+		rooms = append(rooms, model)
+	}
 
 	return
 }
@@ -36,9 +48,9 @@ func CreateRoomService(room Room) (id int64, err error) {
 	}
 	defer conn.Close()
 
-	sql := `INSERT INTO rooms (id, name, capacity) VALUES ($1, $2, $3) RETURNING id`
+	sql := `INSERT INTO rooms (name, capacity) VALUES ($1, $2) RETURNING id`
 
-	err = conn.QueryRow(sql, room.ID, room.Name, room.Capacity).Scan(&room.ID)
+	err = conn.QueryRow(sql, room.Name, room.Capacity).Scan(&id)
 
 	return
 }
@@ -50,7 +62,7 @@ func PatchRoomService(id int64, room Room) (int64, error) {
 	}
 	defer conn.Close()
 
-	res, err := conn.Exec(`UPDATE rooms SET name=$2, capacity=$3, WHERE id=$1`, room.ID, room.Name, room.Capacity)
+	res, err := conn.Exec(`UPDATE rooms SET name=$2, capacity=$3 WHERE id=$1`, id, room.Name, room.Capacity)
 	if err != nil {
 		return 0, err
 	}
@@ -58,14 +70,14 @@ func PatchRoomService(id int64, room Room) (int64, error) {
 	return res.RowsAffected()
 }
 
-func DeleteRoomService(id int64, room Room) (int64, error) {
+func DeleteRoomService(id int64) (int64, error) {
 	conn, err := db.OpenConnection()
 	if err != nil {
 		log.Printf("Error on connect database: %s", err)
 	}
 	defer conn.Close()
 
-	res, err := conn.Exec(`DELETE FROM users WHERE id=$1`, room.ID)
+	res, err := conn.Exec(`DELETE FROM rooms WHERE id=$1`, id)
 	if err != nil {
 		return 0, err
 	}
