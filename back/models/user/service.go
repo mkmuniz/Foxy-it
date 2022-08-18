@@ -52,7 +52,7 @@ func CreateUserService(user User) (id int64, err error) {
 	hashedPassword, err := auth.HashPassword(user.Password)
 
 	if err != nil {
-		log.Printf("Error on hash password: %s", err)
+		fmt.Printf("Error on hash password", err)
 	}
 
 	sql := `INSERT INTO users (name, password, email) VALUES ($1, $2, $3) RETURNING id`

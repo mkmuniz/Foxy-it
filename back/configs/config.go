@@ -7,6 +7,12 @@ var cfg *config
 type config struct {
 	API APIConfig
 	DB  DBConfig
+	JWT JWTConfig
+}
+
+type JWTConfig struct {
+	SecretKey string
+	Issure    string
 }
 
 type APIConfig struct {
@@ -53,13 +59,22 @@ func Load() error {
 		Name:     viper.GetString("db.name"),
 	}
 
+	cfg.JWT = JWTConfig{
+		SecretKey: viper.GetString("jwt.secretkey"),
+		Issure:    viper.GetString("jwt.issure"),
+	}
+
 	return nil
 }
 
-func GetDB() DBConfig {
+func GetDBConfig() DBConfig {
 	return cfg.DB
 }
 
-func GetAPI() string {
+func GetAPIConfig() string {
 	return cfg.API.Port
+}
+
+func GetJWTConfig() JWTConfig {
+	return cfg.JWT
 }

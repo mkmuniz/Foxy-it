@@ -29,6 +29,6 @@ func Run() {
 	r.Group(room.Routes)
 	r.Group(user.Routes)
 
-	log.Printf("Server started on port%v", configs.GetAPI())
-	log.Fatal(http.ListenAndServe(configs.GetAPI(), r))
+	log.Printf("Server started on port%v", configs.GetAPIConfig())
+	log.Fatal(http.ListenAndServe(configs.GetAPIConfig(), r))
 }

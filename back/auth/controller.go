@@ -22,7 +22,15 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 		log.Printf("Error on search user: %v", err)
 	}
 
-	resp := CheckPasswordHash(user.Password, row.Password)
+	isPasswordValid := CheckPasswordHash(user.Password, row.Password)
+	var resp string
+	if isPasswordValid {
+		resp, err = GenerateToken(row)
+
+		if err != nil {
+			log.Printf("Error on generate token: %v", err)
+		}
+	}
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(resp)
