@@ -3,6 +3,7 @@ package user
 import (
 	"fmt"
 	"log"
+	"w2g-personal-project/auth"
 	"w2g-personal-project/db"
 )
 
@@ -48,9 +49,15 @@ func CreateUserService(user User) (id int64, err error) {
 	}
 	defer conn.Close()
 
-	sql := `INSERT INTO users (name, email) VALUES ($1, $2) RETURNING id`
+	hashedPassword, err := auth.HashPassword(user.Password)
 
-	err = conn.QueryRow(sql, user.Name, user.Email).Scan(&id)
+	if err != nil {
+		log.Printf("Error on hash password: %s", err)
+	}
+
+	sql := `INSERT INTO users (name, password, email) VALUES ($1, $2, $3) RETURNING id`
+
+	err = conn.QueryRow(sql, user.Name, hashedPassword, user.Email).Scan(&id)
 
 	return
 }
