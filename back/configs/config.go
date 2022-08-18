@@ -45,11 +45,11 @@ func Load() error {
 	}
 
 	cfg.DB = DBConfig{
-		Host:     viper.GetString("DB_HOST"),
-		Port:     viper.GetString("DB_PORT"),
-		User:     viper.GetString("DB_USER"),
-		Password: viper.GetString("DB_PASSWORD"),
-		Name:     viper.GetString("DB_NAME"),
+		Host:     viper.GetString("db.host"),
+		Port:     viper.GetString("db.port"),
+		User:     viper.GetString("db.user"),
+		Password: viper.GetString("db.password"),
+		Name:     viper.GetString("db.name"),
 	}
 
 	return nil

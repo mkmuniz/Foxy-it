@@ -15,6 +15,7 @@ func GetAllRoomsController(w http.ResponseWriter, r *http.Request) {
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(rooms)
+
 }
 
 func CreateRoomController(w http.ResponseWriter, r *http.Request) {
