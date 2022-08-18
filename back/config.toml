@@ -1,3 +1,8 @@
 [api]
+port=":4000"
 
-[db]
+[database]
+host="localhost"
+user="admin"
+pass="12345"
+name="api_stream"
