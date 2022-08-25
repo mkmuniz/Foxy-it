@@ -26,7 +26,6 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 	var resp string
 	if isPasswordValid {
 		resp, err = GenerateToken(row)
-
 		if err != nil {
 			log.Printf("Error on generate token: %v", err)
 		}
