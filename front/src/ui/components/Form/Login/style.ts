@@ -1,7 +1,8 @@
 export const ContainerStyle = {
     bgcolor: 'white',
     borderRadius: 2,
-    width: 1/2.5,
+    width: 1/2.3,
+    mt: 5,
 }
 
 export const BoxStyle = {
