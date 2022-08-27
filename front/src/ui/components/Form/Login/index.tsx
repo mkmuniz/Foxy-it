@@ -2,6 +2,7 @@ import { Box, Button, Container, FormControl, Grid, Stack, TextField, Typography
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import { MessageTemplate } from "../../Message/index";
+import { LoginForm } from "./interface";
 
 
 export default function FormLogin() {
@@ -9,10 +10,7 @@ export default function FormLogin() {
         status: "",
         description: ""
     });
-    const [form, setForm] = useState({
-        email: "",
-        password: ""
-    });
+    const [form, setForm] = useState(LoginForm);
 
     const getForm = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({
