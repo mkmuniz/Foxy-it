@@ -1,9 +1,12 @@
-import FormLogin from './ui/components/Form/Login';
+import FormSignUp from './ui/components/Form/SignUp';
 import MenuAppBar from './ui/components/NavBar'
 
 function App() {
   return (
-      <FormLogin />
+    <div>
+      <MenuAppBar />
+      <FormSignUp />
+    </div>
   )
 }
 
