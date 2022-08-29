@@ -18,12 +18,30 @@ export default function FormSignUp() {
         });
     };
 
+    const submitForm = async () => {
+        try {
+            const response = await fetch("http://localhost:4000/user", {
+                method: "POST",
+                body: JSON.stringify(form)
+            });
+            setFeedback({
+                status: "success",
+                description: "User created successfully"
+            });
+        } catch (e) {
+            console.log(e);
+            setFeedback({
+                status: "error",
+                description: "Something went wrong"
+            })
+        }
+    }
     return <>
         <Container sx={ContainerStyle}>
             <Grid>
                 <Box sx={BoxStyle}>
                     <Typography align="center">
-                        <h1>Login</h1>
+                        <h1>Sign Up</h1>
                     </Typography>
                     <Stack>
                         <FormControl sx={{ alignItems: "center" }}>
@@ -56,7 +74,7 @@ export default function FormSignUp() {
                                 onChange={getForm}
                             />
                             <MessageTemplate message={feedback} />
-                            <Button variant="contained">Sign Up</Button>
+                            <Button onClick={submitForm} variant="contained">Sign Up</Button>
                         </FormControl>
                     </Stack>
                 </Box>
