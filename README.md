@@ -2,7 +2,7 @@
 
 **Resume**
 
-A project inspired by W2G and Rabb.it streaming websites, that allows users to watch together
+A project inspired by W2G and Rabb.it streaming websites, that allows users to watch movies, series & videos together remotely.
 
 **How to run**
 
