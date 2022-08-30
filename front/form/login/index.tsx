@@ -1,8 +1,8 @@
 import { Box, Button, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
-import { MessageTemplate } from "../../Message/index";
 import { LoginForm } from "./interface";
+import React from "react";
 
 
 export default function FormLogin() {
@@ -42,7 +42,6 @@ export default function FormLogin() {
                                 name="password"
                                 onChange={getForm}
                             />
-                            <MessageTemplate message={feedback} />
                             <Button variant="contained">Log In</Button>
                         </FormControl>
                     </Stack>
