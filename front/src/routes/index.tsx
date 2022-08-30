@@ -1,5 +1,13 @@
+import { useContext } from "react";
+import PrivateRoutes from "./private";
+import PublicRoutes from "./public";
+
 export default function Routes() {
-    return (
-        <div>Teste</div>
-    );
+    const context: any = {};
+    const authContext = useContext(context);
+    {authContext ? (
+        <PrivateRoutes />
+    ) : (
+        <PublicRoutes />
+    )}
 }
