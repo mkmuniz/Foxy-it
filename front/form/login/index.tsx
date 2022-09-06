@@ -23,7 +23,7 @@ export default function FormLogin() {
         <Container sx={ContainerStyle}>
             <Grid>
                 <Box sx={BoxStyle}>
-                    <Typography align="center">
+                    <Typography component='h3' variant='h3'>
                         Login
                     </Typography>
                     <Stack>

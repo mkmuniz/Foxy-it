@@ -6,6 +6,7 @@ export const ContainerStyle = {
 }
 
 export const BoxStyle = {
+    textAlign: 'center',
     p: 2,
 }
 
