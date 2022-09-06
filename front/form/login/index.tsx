@@ -1,9 +1,10 @@
+import React from "react";
+import MessageTemplate from "../../components/message";
 import { Box, Button, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import { LoginForm } from "./interface";
-import React from "react";
-
+import { login } from "../../requests/login";
 
 export default function FormLogin() {
     const [feedback, setFeedback] = useState({
@@ -17,7 +18,24 @@ export default function FormLogin() {
             ...form,
             [e.target.name]: e.target.value
         });
-    }
+    };
+
+    const submitForm = async () => {
+        try {
+            await login(form);
+            return setFeedback({
+                status: "success",
+                description: "Login realizado com sucesso!"
+            });
+        } catch (err) {
+            console.log(err);
+
+            return setFeedback({
+                status: "error",
+                description: "Erro ao enviar formulário"
+            })
+        }
+    };
 
     return <>
         <Container sx={ContainerStyle}>
@@ -42,7 +60,8 @@ export default function FormLogin() {
                                 name="password"
                                 onChange={getForm}
                             />
-                            <Button variant="contained">Log In</Button>
+                            <MessageTemplate {...feedback} />
+                            <Button onClick={submitForm} variant="contained">Log In</Button>
                         </FormControl>
                     </Stack>
                 </Box>
