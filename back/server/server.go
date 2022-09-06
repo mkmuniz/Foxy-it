@@ -10,6 +10,7 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/gorilla/handlers"
 )
 
 func Run() {
@@ -28,7 +29,8 @@ func Run() {
 	r.Post("/login", auth.LoginController)
 	r.Group(room.Routes)
 	r.Group(user.Routes)
+	headers := handlers.AllowedOrigins([]string{"*"})
 
 	log.Printf("Server started on port%v", configs.GetAPIConfig())
-	log.Fatal(http.ListenAndServe(configs.GetAPIConfig(), r))
+	log.Fatal(http.ListenAndServe(configs.GetAPIConfig(), handlers.CORS(headers)(r)))
 }

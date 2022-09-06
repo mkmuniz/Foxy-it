@@ -4,10 +4,13 @@ go 1.19
 
 require (
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
+	github.com/gorilla/handlers v1.5.1
 	github.com/lib/pq v1.10.6
 	github.com/spf13/viper v1.12.0
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4
 )
+
+require github.com/felixge/httpsnoop v1.0.1 // indirect
 
 require (
 	github.com/fsnotify/fsnotify v1.5.4 // indirect

@@ -11,9 +11,10 @@ import (
 )
 
 func GetAllUsersController(w http.ResponseWriter, r *http.Request) {
+
 	rooms, err := GetAllUsersService()
 	if err != nil {
-		log.Printf("Error on get all rooms: %v", err)
+		log.Printf("Error on get all users: %v", err)
 	}
 
 	w.Header().Add("Content-Type", "application/json")
@@ -32,7 +33,7 @@ func GetUserController(w http.ResponseWriter, r *http.Request) {
 	room, err := GetUserService(int64(id))
 
 	if err != nil {
-		log.Printf("Error on get all users: %v", err)
+		log.Printf("Error on get one users: %v", err)
 	}
 
 	w.Header().Add("Content-Type", "application/json")
