@@ -15,9 +15,13 @@ func LoginController(w http.ResponseWriter, r *http.Request) {
 
 	row, err := LoginService(user)
 
-	errors.HandleGetUser(w, r, err)
+	teste := errors.HandleGetUser(w, r, err)
+
+	if teste != nil {
+		return
+	}
 
 	isPasswordValid := CheckPasswordHash(user.Password, row.Password)
 
-	VerifyPassword(w, r, isPasswordValid, row)
+	Authenticate(w, r, isPasswordValid, row)
 }

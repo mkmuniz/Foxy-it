@@ -2,7 +2,6 @@ package auth
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 
 	"golang.org/x/crypto/bcrypt"
@@ -10,8 +9,7 @@ import (
 
 var resp map[string]any
 
-func VerifyPassword(w http.ResponseWriter, r *http.Request, password bool, row UserLogin) {
-	log.Print(row)
+func Authenticate(w http.ResponseWriter, r *http.Request, password bool, row UserLogin) {
 	if password {
 		result, err := GenerateToken(row)
 		if err != nil {
@@ -20,12 +18,22 @@ func VerifyPassword(w http.ResponseWriter, r *http.Request, password bool, row U
 				"message": "Error on generate token",
 				"data":    err,
 			}
+			w.Header().Add("Content-Type", "application/json")
+			json.NewEncoder(w).Encode(resp)
 		}
-
 		resp = map[string]any{
 			"status":  200,
-			"message": "Token generated",
+			"message": "Authenticated!",
 			"data":    result,
+		}
+
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(resp)
+	} else {
+		resp = map[string]any{
+			"status":  401,
+			"message": "Unauthorized!",
+			"data":    nil,
 		}
 
 		w.Header().Add("Content-Type", "application/json")
@@ -33,7 +41,7 @@ func VerifyPassword(w http.ResponseWriter, r *http.Request, password bool, row U
 	}
 }
 func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(bytes), err
 }
 
