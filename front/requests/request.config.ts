@@ -1,6 +1,6 @@
 export async function post(url: string, body: any) {
     try {
-        const response = await fetch(url, {
+        const response = await fetch('http://localhost:3000/api' + url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -9,7 +9,9 @@ export async function post(url: string, body: any) {
             body: JSON.stringify(body)
         });
 
-        return response;
+        const data = await response.json();
+        
+        return data;
     } catch (err) {
         console.log(err);
         throw err;

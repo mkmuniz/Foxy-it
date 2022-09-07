@@ -22,11 +22,34 @@ export default function FormLogin() {
 
     const submitForm = async () => {
         try {
-            await login(form);
-            return setFeedback({
-                status: "success",
-                description: "Login realizado com sucesso!"
-            });
+            const res = await login(form);
+
+            switch (res.status) {
+                case 200:
+                    setFeedback({
+                        status: "success",
+                        description: "Login realizado com sucesso!"
+                    });
+                    break;
+                case 401:
+                    setFeedback({
+                        status: "error",
+                        description: "Email ou senha inválidos!"
+                    });
+                    break;
+                case 404:
+                    setFeedback({
+                        status: "error",
+                        description: "Não há usuário cadastrado com esse email."
+                    });
+                    break;
+                default:
+                    setFeedback({
+                        status: "error",
+                        description: "Erro desconhecido!"
+                    });
+                    break;
+            }
         } catch (err) {
             console.log(err);
 
