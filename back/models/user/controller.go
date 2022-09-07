@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"w2g-personal-project/utils/errors"
 
 	"github.com/go-chi/chi/v5"
 )
@@ -30,15 +31,12 @@ func GetUserController(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	room, err := GetUserService(int64(id))
+	user, err := GetUserService(int64(id))
 
-	if err != nil {
-		log.Printf("Error on get one users: %v", err)
-	}
+	errors.HandleGetUser(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(room)
-
+	json.NewEncoder(w).Encode(user)
 }
 
 func CreateUserController(w http.ResponseWriter, r *http.Request) {
@@ -53,23 +51,7 @@ func CreateUserController(w http.ResponseWriter, r *http.Request) {
 
 	id, err := CreateUserService(model)
 
-	var resp map[string]any
-
-	if err != nil {
-		resp = map[string]any{
-			"Error":   500,
-			"Message": fmt.Sprintf("Error on insert user: %v", err),
-		}
-	} else {
-		resp = map[string]any{
-			"Error":   201,
-			"Message": fmt.Sprintf("User inserted successfully, ID: %v", id),
-		}
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
-
+	errors.HandleInsertUser(w, r, err, id)
 }
 
 func PatchUserController(w http.ResponseWriter, r *http.Request) {
