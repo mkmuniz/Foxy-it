@@ -24,7 +24,7 @@ func LoginService(body UserLogin) (user UserLogin, err error) {
 	err = conn.QueryRow(sql, body.Email).Scan(&user.ID, &user.Name, &user.Email, &user.Password)
 
 	if err != nil {
-		log.Printf("User not found")
+		return user, err
 	}
 
 	return
