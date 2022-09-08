@@ -1,4 +1,6 @@
-// Next.js API route support: https://nextjs.org/docs/api-routes/introduction
+import { generateCookie } from './../../utils/cookies/cookie';
+
+export let AuthToken: any = null;
 
 export default async function handler(req, res) {
   try {
@@ -14,6 +16,9 @@ export default async function handler(req, res) {
 
     const data = await response.json();
 
+    AuthToken = data;
+
+    generateCookie(data, 'token', { expires: new Date(Date.now() + 86400e3), httpOnly: true });
     res.status(200).send(data)
   } catch (err) {
     console.log(err);

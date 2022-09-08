@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useContext } from "react";
 import MessageTemplate from "../../components/message";
 import { Box, Button, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import { LoginForm } from "./interface";
 import { login } from "../../requests/login";
+import { AuthContext } from "../../auth/provider";
 
 export default function FormLogin() {
+    const context = useContext(AuthContext);
     const [feedback, setFeedback] = useState({
         status: "",
         description: ""
@@ -20,6 +22,7 @@ export default function FormLogin() {
         });
     };
 
+    console.log(context);
     const submitForm = async () => {
         try {
             const res = await login(form);
