@@ -1,11 +1,12 @@
-import { Button, Card, CardContent, CardMedia, Grid } from '@mui/material';
+import { Button, Card, CardContent, CardMedia, Grid, Typography } from '@mui/material';
 import { Container } from '@mui/system';
 import AddIcon from '@mui/icons-material/Add';
 import React from 'react';
 
 export default function HomeContent() {
     return <>
-        <Container sx={{ m: '30px' }}>
+        <Container sx={{ m: '30px', textAlign: 'center' }}>
+            <Typography sx={{ m: '15px' }} variant="h4" >My rooms</Typography>
             <Card>
                 <CardMedia>
                     <Grid container justifyContent='flex-end'>
