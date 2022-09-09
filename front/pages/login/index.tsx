@@ -1,25 +1,11 @@
 import React from 'react';
 import FormLogin from '../../form/login/index';
+import withoutAuth from '../../utils/auth/withoutAuth';
 
-export default function Login() {
+function Login() {
     return <>
         <FormLogin />
     </>
 }
 
-export const getServerSideProps: any = async ({ req }) => {
-    const { token } = req.cookies;
-
-    if (token) {
-        return {
-            redirect: {
-                destination: '/',
-                permanent: false,
-            }
-        }
-    }
-
-    return {
-        props: {},
-    }
-}
+export default withoutAuth(Login);

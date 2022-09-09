@@ -9,7 +9,7 @@ import { AuthContext } from "../../auth/provider";
 import { useRouter } from "next/router";
 
 export default function FormLogin() {
-    const { authenticate, user, isAuthenticated } = useContext(AuthContext);
+    const { authenticate } = useContext(AuthContext);
     const router = useRouter();
     const [feedback, setFeedback] = useState({
         status: "",
