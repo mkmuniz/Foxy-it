@@ -1,19 +1,37 @@
+import { setCookie } from 'nookies';
 import React, { createContext, useState } from 'react';
-import { AuthToken } from '../pages/api/login';
-import { authenticatingUser } from '../utils/cookies/cookie';
-import { ContextInterface } from './interfaces';
+import jwt from 'jwt-decode';
 
-export let AuthContext: any = createContext({} as ContextInterface);
+type ContextType = {
+    user: null,
+    authenticate: (token: any) => Promise<void>,
+    isAuthenticated: boolean,
+};
+
+type TokenType = {
+    status: number,
+    data: string,
+    message: string,
+};
+
+export const AuthContext = createContext({} as ContextType);
 
 export function AuthContextProvider({ children }) {
     const [user, setUser] = useState(null);
+    const [isAuthenticated, setAuthentication] = useState(false);
 
-    if (AuthContext) {
-        AuthContext = authenticatingUser(AuthToken, 'token');
-    }
+    async function authenticate(token: TokenType) {
+        if (token.status === 200) {
+            setUser(jwt(token.data));
+            setCookie(undefined, 'token', token.data, {
+                maxAge: 60 * 60 * 1,
+            });
+            setAuthentication(true);
+        }
+    };
 
     return (
-        <AuthContext.Provider value={AuthContext}>
+        <AuthContext.Provider value={{ user, authenticate, isAuthenticated }}>
             {children}
         </AuthContext.Provider>
     )

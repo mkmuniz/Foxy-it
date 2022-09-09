@@ -8,7 +8,7 @@ import { login } from "../../requests/login";
 import { AuthContext } from "../../auth/provider";
 
 export default function FormLogin() {
-    const context = useContext(AuthContext);
+    const { authenticate, user, isAuthenticated } = useContext(AuthContext);
     const [feedback, setFeedback] = useState({
         status: "",
         description: ""
@@ -22,7 +22,8 @@ export default function FormLogin() {
         });
     };
 
-    console.log(context);
+    console.log(user);
+    console.log(isAuthenticated);
     const submitForm = async () => {
         try {
             const res = await login(form);
@@ -33,6 +34,7 @@ export default function FormLogin() {
                         status: "success",
                         description: "Login realizado com sucesso!"
                     });
+                    authenticate(res);
                     break;
                 case 401:
                     setFeedback({
