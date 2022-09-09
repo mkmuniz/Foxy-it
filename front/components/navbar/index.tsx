@@ -10,6 +10,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import { NavbarStyle } from './style';
 import { AuthContext } from '../../auth/provider';
+import { useRouter } from 'next/router';
 
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -17,10 +18,6 @@ export default function Navbar() {
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
-    };
-
-    const handleClose = () => {
-        setAnchorEl(null);
     };
 
     return (
@@ -62,10 +59,8 @@ export default function Navbar() {
                                 horizontal: 'right',
                             }}
                             open={Boolean(anchorEl)}
-                            onClose={handleClose}
                         >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
+                            <MenuItem href='/logout'>Log out</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>
