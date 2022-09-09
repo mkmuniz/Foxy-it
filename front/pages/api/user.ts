@@ -4,7 +4,7 @@ export let AuthToken: any = null;
 export default async function handler(req, res) {
   try {
     const { body } = req;
-    const response = await fetch('http://localhost:4001/login', {
+    const response = await fetch('http://localhost:4001/user', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -14,8 +14,6 @@ export default async function handler(req, res) {
     });
 
     const data = await response.json();
-
-    AuthToken = data;
 
     res.status(200).send(data)
   } catch (err) {

@@ -87,6 +87,7 @@ export default function FormLogin() {
                                 id="outlined-required"
                                 label="Password"
                                 name="password"
+                                type="password"
                                 onChange={getForm}
                             />
                             <MessageTemplate {...feedback} />
