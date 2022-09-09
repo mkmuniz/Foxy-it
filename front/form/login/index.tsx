@@ -6,9 +6,11 @@ import { useState } from 'react';
 import { LoginForm } from "./interface";
 import { login } from "../../requests/login";
 import { AuthContext } from "../../auth/provider";
+import { useRouter } from "next/router";
 
 export default function FormLogin() {
     const { authenticate, user, isAuthenticated } = useContext(AuthContext);
+    const router = useRouter();
     const [feedback, setFeedback] = useState({
         status: "",
         description: ""
@@ -22,8 +24,6 @@ export default function FormLogin() {
         });
     };
 
-    console.log(user);
-    console.log(isAuthenticated);
     const submitForm = async () => {
         try {
             const res = await login(form);
@@ -35,6 +35,7 @@ export default function FormLogin() {
                         description: "Login realizado com sucesso!"
                     });
                     authenticate(res);
+                    router.replace('/');
                     break;
                 case 401:
                     setFeedback({
