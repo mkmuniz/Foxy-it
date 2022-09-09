@@ -49,15 +49,15 @@ func HandleGetUser(w http.ResponseWriter, r *http.Request, err error) (res error
 func HandleInsertUser(w http.ResponseWriter, r *http.Request, err error, id int64) {
 	if err != nil {
 		resp = map[string]any{
-			"error":   500,
+			"status":  500,
 			"message": fmt.Sprintf("Error on insert user: %v", err),
 		}
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
 	} else {
 		resp = map[string]any{
-			"error":   201,
-			"Message": fmt.Sprintf("User inserted successfully, ID: %v", id),
+			"status":  201,
+			"message": fmt.Sprintf("User inserted successfully, ID: %v", id),
 		}
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)

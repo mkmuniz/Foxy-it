@@ -12,12 +12,12 @@ import (
 )
 
 func GetAllUsersController(w http.ResponseWriter, r *http.Request) {
-	rooms, err := GetAllUsersService()
+	users, err := GetAllUsersService()
 
 	errors.HandleGetUser(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(rooms)
+	json.NewEncoder(w).Encode(users)
 
 }
 

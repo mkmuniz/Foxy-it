@@ -30,7 +30,7 @@ func GetAllUsersService() (users []User, err error) {
 
 	for rows.Next() {
 		var model User
-		err = rows.Scan(&model.ID, &model.Name, &model.Email, &model.Password)
+		err = rows.Scan(&model.ID, &model.Name, &model.Password, &model.Email)
 
 		if err != nil {
 			fmt.Sprint(err)
@@ -44,6 +44,8 @@ func GetAllUsersService() (users []User, err error) {
 
 func CreateUserService(user User) (id int64, err error) {
 	conn, err := db.OpenConnection()
+
+	log.Print(user)
 	if err != nil {
 		log.Printf("Error on connect database: %s", err)
 	}
