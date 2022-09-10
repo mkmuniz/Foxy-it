@@ -24,7 +24,7 @@ export default function Navbar() {
     const handleLogout = () => {
         router.replace('/logout');
         setAnchorEl(null);
-      };
+    };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -66,11 +66,12 @@ export default function Navbar() {
                             }}
                             open={Boolean(anchorEl)}
                         >
-                            <MenuItem onClick={handleLogout}>Log out</MenuItem>
-                        </Menu>
-                    </div>
-                </Toolbar>
-            </AppBar>
-        </Box>
+                            <MenuItem onClick={() => { router.replace('/perfil'), setAnchorEl(null)}}>Perfil</MenuItem>
+                        <MenuItem onClick={handleLogout}>Log out</MenuItem>
+                    </Menu>
+                </div>
+            </Toolbar>
+        </AppBar>
+        </Box >
     );
 }
