@@ -1,12 +1,14 @@
-import { Container, Card, CardMedia, CardContent, Grid, Avatar, List, ListItem, ListItemAvatar, ListItemText, Typography, TextField, Button } from '@mui/material';
-import React, { useContext } from 'react';
+import { Container, Card, CardMedia, CardContent, Grid, List, ListItem, Link } from '@mui/material';
+import React, { useContext, useState } from 'react';
 import Navbar from '../../components/navbar';
 import withAuth from '../../utils/auth/withAuth';
-import { TextFieldStyle } from '../../form/login/style';
 import { AuthContext } from '../../auth/provider';
+import EditPerfil from '../../form/editPerfil';
+import ChangePassword from '../../form/changePassword';
 
 function Perfil() {
     const { user } = useContext(AuthContext);
+    const [component, setComponent] = useState('');
 
     return <>
         <Navbar />
@@ -17,31 +19,28 @@ function Perfil() {
                         <Grid xs={4}>
                             <List>
                                 <ListItem>
-                                    Edit perfil
+                                    <Link onClick={() => setComponent('edit')} sx={{ textDecoration: 'none', color: 'black' }}>
+                                        Edit perfil
+                                    </Link>
                                 </ListItem>
                                 <ListItem>
-                                    Change password
+                                    <Link onClick={() => setComponent('changepassword')} sx={{ textDecoration: 'none', color: 'black' }}>
+                                        Change password
+                                    </Link>
                                 </ListItem>
                             </List>
                         </Grid>
                         <Grid xs={8} sx={{ alignItems: 'center', textAlign: 'center' }}>
-                            <Typography variant="h4">
-                                Your perfil
-                            </Typography>
-                            <TextField sx={TextFieldStyle}
-                                required
-                                id="outlined-required"
-                                label="Username"
-                                name="name"
-                                value={user.Name}
-                            />
-                            <TextField sx={TextFieldStyle}
-                                required
-                                id="outlined-required"
-                                label="E-mail"
-                                name="email"
-                                value={user.Email}
-                            />
+                            {component === 'edit' &&
+                                <>
+                                    <EditPerfil />
+                                </>
+                            }
+                            {component === 'changepassword' &&
+                                <>
+                                    <ChangePassword />
+                                </>
+                            }
                         </Grid>
                     </Grid>
                 </CardContent>
