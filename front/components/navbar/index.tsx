@@ -15,10 +15,16 @@ import { useRouter } from 'next/router';
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const { user } = React.useContext(AuthContext);
+    const router = useRouter();
 
     const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
+    const handleLogout = () => {
+        router.replace('/logout');
+        setAnchorEl(null);
+      };
 
     return (
         <Box sx={{ flexGrow: 1 }}>
@@ -60,7 +66,7 @@ export default function Navbar() {
                             }}
                             open={Boolean(anchorEl)}
                         >
-                            <MenuItem href='/logout'>Log out</MenuItem>
+                            <MenuItem onClick={handleLogout}>Log out</MenuItem>
                         </Menu>
                     </div>
                 </Toolbar>

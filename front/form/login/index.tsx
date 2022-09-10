@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import MessageTemplate from "../../components/message";
-import { Box, Button, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import { LoginForm } from "./interface";
@@ -67,35 +67,41 @@ export default function FormLogin() {
     };
 
     return <>
-        <Container sx={ContainerStyle}>
-            <Grid>
-                <Box sx={BoxStyle}>
-                    <Typography component='h3' variant='h3'>
-                        Login
-                    </Typography>
-                    <Stack>
-                        <FormControl sx={{ alignItems: "center" }}>
-                            <TextField sx={TextFieldStyle}
-                                required
-                                id="outlined-required"
-                                label="E-mail"
-                                name="email"
-                                onChange={getForm}
-                            />
-                            <TextField sx={TextFieldStyle}
-                                required
-                                id="outlined-required"
-                                label="Password"
-                                name="password"
-                                type="password"
-                                onChange={getForm}
-                            />
-                            <MessageTemplate {...feedback} />
-                            <Button onClick={submitForm} variant="contained">Log In</Button>
-                        </FormControl>
-                    </Stack>
-                </Box>
-            </Grid>
-        </Container>
+        <Box>
+            <Container sx={ContainerStyle}>
+                <Grid>
+                    <Box sx={BoxStyle}>
+                        <Card>
+                            <CardContent>
+                                <Typography component='h3' variant='h3'>
+                                    Login
+                                </Typography>
+                                <Stack>
+                                    <FormControl sx={{ alignItems: "center" }}>
+                                        <TextField sx={TextFieldStyle}
+                                            required
+                                            id="outlined-required"
+                                            label="E-mail"
+                                            name="email"
+                                            onChange={getForm}
+                                        />
+                                        <TextField sx={TextFieldStyle}
+                                            required
+                                            id="outlined-required"
+                                            label="Password"
+                                            name="password"
+                                            type="password"
+                                            onChange={getForm}
+                                        />
+                                        <MessageTemplate {...feedback} />
+                                        <Button onClick={submitForm} variant="contained">Log In</Button>
+                                    </FormControl>
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                    </Box>
+                </Grid>
+            </Container>
+        </Box>
     </>
 }
