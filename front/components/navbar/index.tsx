@@ -11,6 +11,7 @@ import Menu from '@mui/material/Menu';
 import { NavbarStyle } from './style';
 import { AuthContext } from '../../auth/provider';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function Navbar() {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
@@ -39,7 +40,9 @@ export default function Navbar() {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }} />
+                    <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+                        <Link href='/'>Home</Link>
+                    </Typography>
                     <div>
                         Yo, {user.Name}
                         <IconButton
