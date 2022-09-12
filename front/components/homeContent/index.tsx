@@ -5,7 +5,7 @@ import React from 'react';
 
 export default function HomeContent() {
     return <>
-        <Container sx={{ m: '30px', textAlign: 'center' }}>
+        <Container sx={{ m: '30px', textAlign: 'center', width: '100%', minHeight: '55vh', height: '100%'}}>
             <Typography sx={{ m: '15px' }} variant="h4" >My rooms</Typography>
             <Card>
                 <CardMedia>
