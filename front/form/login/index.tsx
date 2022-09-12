@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { createRef, useContext, useEffect } from "react";
 import MessageTemplate from "../../components/message";
 import { Box, Button, Card, CardContent, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
@@ -7,6 +7,8 @@ import { LoginForm } from "./interface";
 import { login } from "../../requests/login";
 import { AuthContext } from "../../auth/provider";
 import { useRouter } from "next/router";
+import ReCAPTCHA from "react-google-recaptcha";
+import Script from 'next/script'
 
 export default function FormLogin() {
     const { authenticate } = useContext(AuthContext);
@@ -16,6 +18,7 @@ export default function FormLogin() {
         description: ""
     });
     const [form, setForm] = useState(LoginForm);
+    const [captcha, setCaptcha] = useState(null);
 
     const getForm = (e: React.ChangeEvent<HTMLInputElement>) => {
         setForm({
@@ -27,6 +30,11 @@ export default function FormLogin() {
     const submitForm = async () => {
         try {
             const res = await login(form);
+
+            if (!captcha) return setFeedback({
+                status: 'error',
+                description: 'Confirme o captcha, por favor'
+            });
 
             switch (res.status) {
                 case 200:
@@ -68,6 +76,7 @@ export default function FormLogin() {
 
     return <>
         <Box>
+            <Script src="https://www.recaptcha.net/recaptcha/api.js" async defer />
             <Container sx={ContainerStyle}>
                 <Grid>
                     <Box sx={BoxStyle}>
@@ -93,8 +102,13 @@ export default function FormLogin() {
                                             type="password"
                                             onChange={getForm}
                                         />
+                                        <ReCAPTCHA
+                                            sitekey="6Ler4_IhAAAAAPracsrAPRsWsLio3U6FHXvsHJBK"
+                                            onChange={(e) => setCaptcha(e)}
+                                            onLoad={(e) => console.log(e)}
+                                        />
+                                        <Button sx={{ m: '5px' }} onClick={submitForm} variant="contained">Log In</Button>
                                         <MessageTemplate {...feedback} />
-                                        <Button onClick={submitForm} variant="contained">Log In</Button>
                                     </FormControl>
                                 </Stack>
                             </CardContent>
