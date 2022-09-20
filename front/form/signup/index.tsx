@@ -1,4 +1,4 @@
-import { Box, Button, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, Container, FormControl, Grid, Link, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import React from "react";
@@ -63,46 +63,49 @@ export default function FormSignUp() {
         <div>
             <Container sx={ContainerStyle}>
                 <Grid>
-                    <Box sx={BoxStyle}>
-                        <Typography variant="h4" align="center">
-                            Sign Up
-                        </Typography>
-                        <Stack>
-                            <FormControl sx={{ alignItems: "center" }}>
-                                <TextField sx={TextFieldStyle}
-                                    required
-                                    id="outlined-required"
-                                    label="Username"
-                                    name="name"
-                                    onChange={getForm}
-                                />
-                                <TextField sx={TextFieldStyle}
-                                    required
-                                    id="outlined-required"
-                                    label="E-mail"
-                                    name="email"
-                                    onChange={getForm}
-                                />
-                                <TextField sx={TextFieldStyle}
-                                    required
-                                    id="outlined-required"
-                                    label="Confirm E-mail"
-                                    name="confirmEmail"
-                                    onChange={getForm}
-                                />
-                                <TextField sx={TextFieldStyle}
-                                    required
-                                    id="outlined-required"
-                                    label="Password"
-                                    name="password"
-                                    type="password"
-                                    onChange={getForm}
-                                />
-                                <MessageTemplate {...feedback} />
-                                <Button onClick={submitForm} variant="contained">Sign Up</Button>
-                            </FormControl>
-                        </Stack>
-                    </Box>
+                    <Card>
+                        <Box sx={BoxStyle}>
+                            <Typography variant="h4" align="center">
+                                Sign Up
+                            </Typography>
+                            <Stack>
+                                <FormControl sx={{ alignItems: "center" }}>
+                                    <TextField sx={TextFieldStyle}
+                                        required
+                                        id="outlined-required"
+                                        label="Username"
+                                        name="name"
+                                        onChange={getForm}
+                                    />
+                                    <TextField sx={TextFieldStyle}
+                                        required
+                                        id="outlined-required"
+                                        label="E-mail"
+                                        name="email"
+                                        onChange={getForm}
+                                    />
+                                    <TextField sx={TextFieldStyle}
+                                        required
+                                        id="outlined-required"
+                                        label="Confirm E-mail"
+                                        name="confirmEmail"
+                                        onChange={getForm}
+                                    />
+                                    <TextField sx={TextFieldStyle}
+                                        required
+                                        id="outlined-required"
+                                        label="Password"
+                                        name="password"
+                                        type="password"
+                                        onChange={getForm}
+                                    />
+                                    <MessageTemplate {...feedback} />
+                                    <Link sx={{ textDecoration: 'none', pb: '15px' }} href="/login">Já possui uma conta? Clique aqui</Link>
+                                    <Button onClick={submitForm} variant="contained">Sign Up</Button>
+                                </FormControl>
+                            </Stack>
+                        </Box>
+                    </Card>
                 </Grid>
             </Container>
         </div>

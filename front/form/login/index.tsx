@@ -1,6 +1,6 @@
 import React, { createRef, useContext, useEffect } from "react";
 import MessageTemplate from "../../components/message";
-import { Box, Button, Card, CardContent, Container, FormControl, Grid, Stack, TextField, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, Container, FormControl, Grid, Link, Stack, TextField, Typography } from "@mui/material";
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import { LoginForm } from "./interface";
@@ -69,7 +69,7 @@ export default function FormLogin() {
 
             return setFeedback({
                 status: "error",
-                description: "Erro ao enviar formulário"
+                description: "Erro ao realizar o login"
             })
         }
     };
@@ -107,6 +107,7 @@ export default function FormLogin() {
                                             onChange={(e) => setCaptcha(e)}
                                             onLoad={(e) => console.log(e)}
                                         />
+                                        <Link sx={{ textDecoration: 'none', m: '10px' }} href="/signup">Não possui uma conta? Clique aqui</Link>
                                         <Button sx={{ m: '5px' }} onClick={submitForm} variant="contained">Log In</Button>
                                         <MessageTemplate {...feedback} />
                                     </FormControl>
