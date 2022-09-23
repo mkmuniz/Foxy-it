@@ -3,6 +3,7 @@ package errors
 import (
 	"encoding/json"
 	"fmt"
+	"log"
 	"net/http"
 )
 
@@ -64,7 +65,7 @@ func HandleInsertUser(w http.ResponseWriter, r *http.Request, err error, id int6
 	}
 }
 
-func HandleUpdateUser(w http.ResponseWriter, r *http.Request, err error) {
+func HandleUpdateUser(w http.ResponseWriter, r *http.Request, err error, rows int64) {
 	if err != nil {
 		resp = map[string]any{
 			"error":   500,
@@ -72,10 +73,23 @@ func HandleUpdateUser(w http.ResponseWriter, r *http.Request, err error) {
 		}
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
+	} else {
+		resp = map[string]any{
+			"status":  200,
+			"message": "User updated successfully!",
+		}
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(resp)
+	}
+
+	if rows > 1 {
+		log.Printf("Many users was update: %v", rows)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 }
 
-func HandleDeleteUser(w http.ResponseWriter, r *http.Request, err error) {
+func HandleDeleteUser(w http.ResponseWriter, r *http.Request, err error, rows int64) {
 	if err != nil {
 		resp = map[string]any{
 			"error":   500,
@@ -83,5 +97,18 @@ func HandleDeleteUser(w http.ResponseWriter, r *http.Request, err error) {
 		}
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
+	} else {
+		resp = map[string]any{
+			"status":  200,
+			"message": "User deleted successfully!",
+		}
+		w.Header().Add("Content-Type", "application/json")
+		json.NewEncoder(w).Encode(resp)
+	}
+
+	if rows > 1 {
+		log.Printf("Many users was deleted: %v", rows)
+		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
+		return
 	}
 }

@@ -2,19 +2,18 @@ package room
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"strconv"
+	"w2g-personal-project/utils/errors"
 
 	"github.com/go-chi/chi/v5"
 )
 
 func GetAllRoomsController(w http.ResponseWriter, r *http.Request) {
 	rooms, err := GetAllRoomsService()
-	if err != nil {
-		log.Printf("Error on get all rooms: %v", err)
-	}
+
+	errors.HandleGetRoom(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(rooms)
@@ -31,118 +30,47 @@ func GetRoomController(w http.ResponseWriter, r *http.Request) {
 
 	room, err := GetRoomService(int64(id))
 
-	if err != nil {
-		log.Printf("Error on get all rooms: %v", err)
-	}
+	errors.HandleGetRoom(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(room)
-
 }
 
 func CreateRoomController(w http.ResponseWriter, r *http.Request) {
 	var model Room
 
 	err := json.NewDecoder(r.Body).Decode(&model)
-	if err != nil {
-		log.Printf("Error decoding JSON: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
+
+	errors.HandleDecodeJson(w, r, err)
 
 	id, err := CreateRoomService(model)
 
-	var resp map[string]any
-
-	if err != nil {
-		resp = map[string]any{
-			"Error":   500,
-			"Message": fmt.Sprintf("Error on insert user: %v", err),
-		}
-	} else {
-		resp = map[string]any{
-			"Error":   201,
-			"Message": fmt.Sprintf("User inserted successfully, ID: %v", id),
-		}
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
-
-	return
+	errors.HandleInsertRoom(w, r, err, id)
 }
 
 func PatchRoomController(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		log.Printf("Error converting ID: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
+
+	errors.HandleConvertString(w, r, err)
 
 	var model Room
 
 	err = json.NewDecoder(r.Body).Decode(&model)
-	if err != nil {
-		log.Printf("Error decoding JSON: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
+
+	errors.HandleDecodeJson(w, r, err)
 
 	rows, err := PatchRoomService(int64(id), model)
-	if err != nil {
-		log.Printf("Error on update user: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
 
-	if rows > 1 {
-		log.Printf("Many room was update: %v", rows)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	resp := map[string]any{
-		"Error":   200,
-		"Message": fmt.Sprintf("Room updated successfully, ID: %v", id),
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	errors.HandleUpdateRoom(w, r, err, rows)
 }
 
 func DeleteRoomController(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		log.Printf("Error converting ID: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
+	errors.HandleConvertId(w, r, err)
 
-	if err != nil {
-		log.Printf("Error decoding JSON: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
+	errors.HandleDecodeJson(w, r, err)
 
 	rows, err := DeleteRoomService(int64(id))
-	if err != nil {
-		log.Printf("Error on delete room: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
+	errors.HandleDeleteRoom(w, r, err, rows)
 
-	if rows > 1 {
-		log.Printf("Many rooms was deleted: %v", rows)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	resp := map[string]any{
-		"Error":   200,
-		"Message": fmt.Sprintf("Room deleted successfully, ID: %v", id),
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
 }

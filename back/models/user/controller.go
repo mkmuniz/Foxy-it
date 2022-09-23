@@ -2,8 +2,6 @@ package user
 
 import (
 	"encoding/json"
-	"fmt"
-	"log"
 	"net/http"
 	"strconv"
 	"w2g-personal-project/utils/errors"
@@ -23,10 +21,8 @@ func GetAllUsersController(w http.ResponseWriter, r *http.Request) {
 
 func GetUserController(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
-	if err != nil {
-		log.Printf("Error converting ID: %v", err)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-	}
+
+	errors.HandleConvertId(w, r, err)
 
 	user, err := GetUserService(int64(id))
 
@@ -61,21 +57,7 @@ func PatchUserController(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := PatchUserService(int64(id), model)
 
-	errors.HandleUpdateUser(w, r, err)
-
-	if rows > 1 {
-		log.Printf("Many users was update: %v", rows)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	resp := map[string]any{
-		"Error":   200,
-		"Message": fmt.Sprintf("User updated successfully, ID: %v", id),
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	errors.HandleUpdateUser(w, r, err, rows)
 }
 
 func DeleteUserController(w http.ResponseWriter, r *http.Request) {
@@ -85,19 +67,5 @@ func DeleteUserController(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := DeleteUserService(int64(id))
 
-	errors.HandleDeleteUser(w, r, err)
-
-	if rows > 1 {
-		log.Printf("Many users was deleted: %v", rows)
-		http.Error(w, http.StatusText(http.StatusInternalServerError), http.StatusInternalServerError)
-		return
-	}
-
-	resp := map[string]any{
-		"Error":   200,
-		"Message": fmt.Sprintf("User deleted successfully, ID: %v", id),
-	}
-
-	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(resp)
+	errors.HandleDeleteUser(w, r, err, rows)
 }
