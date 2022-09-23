@@ -2,7 +2,7 @@ import { Box, Button, Card, Container, FormControl, Grid, Link, Stack, TextField
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import React from "react";
-import { createUser } from "../../requests/login";
+import { createUser } from "../../requests/user";
 import MessageTemplate from "../../components/message";
 import { useRouter } from "next/router";
 

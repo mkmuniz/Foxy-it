@@ -1,6 +1,8 @@
 import { Box, Card, CardContent, Grid, Typography, CardMedia, Button, FormControl, TextField } from '@mui/material';
 import React, { useState } from 'react';
+import MessageTemplate from '../../components/message';
 import { TextFieldStyle } from '../login/style';
+import { createRoom } from '../../requests/room';
 
 type Form = {
     name: string,
@@ -8,12 +10,29 @@ type Form = {
 
 export default function CreateRoom() {
     const [form, setForm] = useState({} as Form);
+    const [feedback, setFeedback] = useState({
+        status: "",
+        description: ""
+    })
 
-    const getValues = (e: any) => {
+    const getValues = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
 
-    console.log(form);
+    const submit = async (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+
+        try {
+            await createRoom(form);
+
+            return setFeedback({
+                status: "success",
+                description: "Sala criada com sucesso!"
+            });
+        } catch(err) {
+            console.log(err);
+        }
+    }
     
     return <>
         <Box>
@@ -32,9 +51,10 @@ export default function CreateRoom() {
                                     id="outlined-required"
                                     label="Room name"
                                     name="name"
-                                    onChange={getValues}
+                                    onChange={(e) => getValues(e)}
                                 />
-                                <Button variant="contained">Create</Button>
+                                <MessageTemplate {...feedback} />
+                                <Button onClick={e => submit(e)} variant="contained">Create</Button>
                             </FormControl>
                         </CardContent>
                     </Card>

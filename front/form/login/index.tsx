@@ -4,7 +4,7 @@ import { Box, Button, Card, CardContent, Container, FormControl, Grid, Link, Sta
 import { BoxStyle, ContainerStyle, TextFieldStyle } from "./style";
 import { useState } from 'react';
 import { LoginForm } from "./interface";
-import { login } from "../../requests/login";
+import { login } from "../../requests/user";
 import { AuthContext } from "../../auth/provider";
 import { useRouter } from "next/router";
 import ReCAPTCHA from "react-google-recaptcha";
