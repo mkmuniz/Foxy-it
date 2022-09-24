@@ -27,8 +27,6 @@ func HandleGetRoom(w http.ResponseWriter, r *http.Request, err error) (res error
 
 		return nil
 	}
-
-	return
 }
 
 func HandleInsertRoom(w http.ResponseWriter, r *http.Request, err error, id int64) {

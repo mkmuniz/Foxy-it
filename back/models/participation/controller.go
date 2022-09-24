@@ -1,4 +1,4 @@
-package room
+package participation
 
 import (
 	"encoding/json"
@@ -9,63 +9,63 @@ import (
 	"github.com/go-chi/chi/v5"
 )
 
-func GetAllRoomsController(w http.ResponseWriter, r *http.Request) {
-	rooms, err := GetAllRoomsService()
+func GetAllParticipationController(w http.ResponseWriter, r *http.Request) {
+	participations, err := GetAllParticipationsService()
 
 	errors.HandleGetRoom(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(rooms)
+	json.NewEncoder(w).Encode(participations)
 }
 
-func GetRoomController(w http.ResponseWriter, r *http.Request) {
+func GetParticipationController(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 
 	errors.HandleConvertId(w, r, err)
 
-	room, err := GetRoomService(int64(id))
+	participation, err := GetParticipationService(int64(id))
 
 	errors.HandleGetRoom(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
-	json.NewEncoder(w).Encode(room)
+	json.NewEncoder(w).Encode(participation)
 }
 
-func CreateRoomController(w http.ResponseWriter, r *http.Request) {
-	var model Room
+func CreateParticipationController(w http.ResponseWriter, r *http.Request) {
+	var model Participation
 
 	err := json.NewDecoder(r.Body).Decode(&model)
 
 	errors.HandleDecodeJson(w, r, err)
 
-	id, err := CreateRoomService(model)
+	id, err := CreateParticipationService(model)
 
 	errors.HandleInsertRoom(w, r, err, id)
 }
 
-func PatchRoomController(w http.ResponseWriter, r *http.Request) {
+func PatchParticipationController(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 
 	errors.HandleConvertString(w, r, err)
 
-	var model Room
+	var model Participation
 
 	err = json.NewDecoder(r.Body).Decode(&model)
 
 	errors.HandleDecodeJson(w, r, err)
 
-	rows, err := PatchRoomService(int64(id), model)
+	rows, err := PatchParticipationService(int64(id), model)
 
 	errors.HandleUpdateRoom(w, r, err, rows)
 }
 
-func DeleteRoomController(w http.ResponseWriter, r *http.Request) {
+func DeleteParticipationController(w http.ResponseWriter, r *http.Request) {
 	id, err := strconv.Atoi(chi.URLParam(r, "id"))
 	errors.HandleConvertId(w, r, err)
 
 	errors.HandleDecodeJson(w, r, err)
 
-	rows, err := DeleteRoomService(int64(id))
+	rows, err := DeleteParticipationService(int64(id))
 
 	errors.HandleDeleteRoom(w, r, err, rows)
 }
