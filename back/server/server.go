@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"w2g-personal-project/auth"
 	"w2g-personal-project/configs"
+	"w2g-personal-project/models/participation"
 	"w2g-personal-project/models/room"
 	"w2g-personal-project/models/user"
 
@@ -29,6 +30,7 @@ func Run() {
 	r.Post("/login", auth.LoginController)
 	r.Group(room.Routes)
 	r.Group(user.Routes)
+	r.Group(participation.Routes)
 	headers := handlers.AllowedOrigins([]string{"*"})
 
 	log.Printf("Server started on port%v", configs.GetAPIConfig())
