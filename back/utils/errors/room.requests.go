@@ -40,7 +40,8 @@ func HandleInsertRoom(w http.ResponseWriter, r *http.Request, err error, id int6
 	} else {
 		resp = map[string]any{
 			"status":  201,
-			"message": fmt.Sprintf("Room inserted successfully, ID: %v", id),
+			"message": fmt.Sprintf("Room inserted successfully"),
+			"id":      id,
 		}
 		w.Header().Add("Content-Type", "application/json")
 		json.NewEncoder(w).Encode(resp)
