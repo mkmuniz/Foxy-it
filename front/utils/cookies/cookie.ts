@@ -3,9 +3,7 @@ import jwt from 'jwt-decode';
 export function validateCookie(token: string) {
     const decoded: any = jwt(token);
 
-    if (decoded.exp < Date.now() / 1000) {
-        return false;
-    }
+    if (decoded.exp < Date.now() / 1000) return false;
 
     return true;
 };
