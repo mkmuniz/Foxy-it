@@ -12,7 +12,7 @@ import (
 func GetAllParticipationController(w http.ResponseWriter, r *http.Request) {
 	participations, err := GetAllParticipationsService()
 
-	errors.HandleGetRoom(w, r, err)
+	errors.HandleGetParticipation(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(participations)
@@ -25,7 +25,7 @@ func GetParticipationController(w http.ResponseWriter, r *http.Request) {
 
 	participation, err := GetParticipationService(int64(id))
 
-	errors.HandleGetRoom(w, r, err)
+	errors.HandleGetParticipation(w, r, err)
 
 	w.Header().Add("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(participation)
@@ -40,7 +40,7 @@ func CreateParticipationController(w http.ResponseWriter, r *http.Request) {
 
 	id, err := CreateParticipationService(model)
 
-	errors.HandleInsertRoom(w, r, err, id)
+	errors.HandleInsertParticipation(w, r, err, id)
 }
 
 func PatchParticipationController(w http.ResponseWriter, r *http.Request) {
@@ -56,7 +56,7 @@ func PatchParticipationController(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := PatchParticipationService(int64(id), model)
 
-	errors.HandleUpdateRoom(w, r, err, rows)
+	errors.HandleUpdateParticipation(w, r, err, rows)
 }
 
 func DeleteParticipationController(w http.ResponseWriter, r *http.Request) {
@@ -67,5 +67,5 @@ func DeleteParticipationController(w http.ResponseWriter, r *http.Request) {
 
 	rows, err := DeleteParticipationService(int64(id))
 
-	errors.HandleDeleteRoom(w, r, err, rows)
+	errors.HandleDeleteParticipation(w, r, err, rows)
 }
