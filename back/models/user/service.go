@@ -14,7 +14,7 @@ func GetUserService(id int64) (user User, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow(`SELECT id, name, email FROM users WHERE id = $1`, id).Scan(&user.ID, &user.Name, &user.Email)
+	err = conn.QueryRow(`SELECT id, name, email, participations FROM users WHERE id = $1`, id).Scan(&user.ID, &user.Name, &user.Email, &user.Participations)
 
 	return
 }
@@ -30,7 +30,7 @@ func GetAllUsersService() (users []User, err error) {
 
 	for rows.Next() {
 		var model User
-		err = rows.Scan(&model.ID, &model.Name, &model.Password, &model.Email)
+		err = rows.Scan(&model.ID, &model.Name, &model.Password, &model.Email, &model.Participations)
 
 		if err != nil {
 			fmt.Sprint(err)
@@ -71,7 +71,7 @@ func PatchUserService(id int64, user User) (int64, error) {
 	}
 	defer conn.Close()
 
-	res, err := conn.Exec(`UPDATE users SET name=$2, email=$3 WHERE id=$1`, id, user.Name, user.Email)
+	res, err := conn.Exec(`UPDATE users SET name=$2, email=$3, participations=$4 WHERE id=$1`, id, user.Name, user.Email, user.Participations)
 	if err != nil {
 		return 0, err
 	}
