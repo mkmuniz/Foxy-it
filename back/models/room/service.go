@@ -13,7 +13,7 @@ func GetRoomService(id int64) (room Room, err error) {
 	}
 	defer conn.Close()
 
-	err = conn.QueryRow(`SELECT id, name, capacity FROM rooms WHERE id = $1`, id).Scan(&room.ID, &room.Name, &room.Capacity)
+	err = conn.QueryRow(`SELECT id, name, members FROM rooms WHERE id = $1`, id).Scan(&room.ID, &room.Name, &room.Members)
 
 	return
 }
@@ -29,7 +29,7 @@ func GetAllRoomsService() (rooms []Room, err error) {
 
 	for rows.Next() {
 		var model Room
-		err = rows.Scan(&model.ID, &model.Name, &model.Capacity)
+		err = rows.Scan(&model.ID, &model.Name, &model.Members)
 
 		if err != nil {
 			fmt.Sprint(err)
@@ -48,9 +48,9 @@ func CreateRoomService(room Room) (id int64, err error) {
 	}
 	defer conn.Close()
 
-	sql := `INSERT INTO rooms (name, capacity) VALUES ($1, $2) RETURNING id`
+	sql := `INSERT INTO rooms (name, members) VALUES ($1, $2) RETURNING id`
 
-	err = conn.QueryRow(sql, room.Name, room.Capacity).Scan(&id)
+	err = conn.QueryRow(sql, room.Name, room.Members).Scan(&id)
 
 	return
 }
@@ -62,7 +62,7 @@ func PatchRoomService(id int64, room Room) (int64, error) {
 	}
 	defer conn.Close()
 
-	res, err := conn.Exec(`UPDATE rooms SET name=$2, capacity=$3 WHERE id=$1`, id, room.Name, room.Capacity)
+	res, err := conn.Exec(`UPDATE rooms SET name=$2, members=$3 WHERE id=$1`, id, room.Name, room.Members)
 	if err != nil {
 		return 0, err
 	}
