@@ -21,6 +21,19 @@ export default function FormLogin() {
     const [captcha, setCaptcha] = useState(null);
 
     const getForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const RegEx = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$";
+
+        if (e.target.name === "email" && !e.target.value.match(RegEx)) {
+            setFeedback({
+                status: "error",
+                description: "Email inválido"
+            });
+        } else {
+            setFeedback({
+                status: "",
+                description: ""
+            });
+        }
         setForm({
             ...form,
             [e.target.name]: e.target.value
@@ -108,8 +121,8 @@ export default function FormLogin() {
                                             onLoad={(e) => console.log(e)}
                                         />
                                         <Link sx={{ textDecoration: 'none', m: '10px' }} href="/signup">Não possui uma conta? Clique aqui</Link>
-                                        <Button sx={{ m: '5px' }} onClick={submitForm} variant="contained">Log In</Button>
                                         <MessageTemplate {...feedback} />
+                                        <Button sx={{ m: '5px' }} onClick={submitForm} variant="contained">Log In</Button>
                                     </FormControl>
                                 </Stack>
                             </CardContent>

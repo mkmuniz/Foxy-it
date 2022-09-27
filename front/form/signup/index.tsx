@@ -22,6 +22,20 @@ export default function FormSignUp() {
     const router = useRouter();
 
     const getForm = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const RegEx = "^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+.[a-zA-Z0-9-.]+$";
+
+        if (e.target.name === "email" && !e.target.value.match(RegEx)) {
+            setFeedback({
+                status: "error",
+                description: "Email inválido"
+            });
+        } else {
+            setFeedback({
+                status: "",
+                description: ""
+            });
+        };
+        
         setForm({
             ...form,
             [e.target.name]: e.target.value

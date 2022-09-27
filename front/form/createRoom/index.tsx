@@ -20,8 +20,6 @@ export default function CreateRoom() {
         description: ""
     })
 
-    console.log(user);
-
     const getValues = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         setForm({ ...form, [e.target.name]: e.target.value });
     };
