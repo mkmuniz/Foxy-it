@@ -1,6 +1,6 @@
 # About
 
-**What is?**
+**What it is?**
 
 A project inspired by W2G and Rabb.it streaming websites, that allows users to watch movies, series & videos together remotely.
 
